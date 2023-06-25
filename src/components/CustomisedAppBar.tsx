@@ -2,9 +2,7 @@ import { AppBar, AppBarProps, Box, Toolbar } from '@mui/material'
 import CustomisedButton from './CustomisedButton'
 import Logo from '../assets/Logo.svg'
 
-interface CustomisedAppBarProps extends AppBarProps {}
-
-export function CustomisedAppBar({ ...props }: CustomisedAppBarProps) {
+export function CustomisedAppBar({ ...props }: AppBarProps) {
   return (
     <AppBar
       position="static"
