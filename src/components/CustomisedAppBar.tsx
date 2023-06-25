@@ -1,22 +1,8 @@
-import {
-  AppBar,
-  Box,
-  Container,
-  Stack,
-  Toolbar,
-  Typography,
-} from '@mui/material'
+import { AppBar, AppBarProps, Box, Toolbar } from '@mui/material'
 import CustomisedButton from './CustomisedButton'
-import {
-  fontColor,
-  fontFamily,
-  primaryColor,
-  secondaryColor,
-  backgroundColor,
-} from '../vars'
 import Logo from '../assets/Logo.svg'
 
-interface CustomisedAppBarProps {}
+interface CustomisedAppBarProps extends AppBarProps {}
 
 export function CustomisedAppBar({ ...props }: CustomisedAppBarProps) {
   return (

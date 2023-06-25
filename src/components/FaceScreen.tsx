@@ -4,26 +4,25 @@ import React from 'react'
 import Bg from '../assets/pexels-alexandr-podvalny-1227513.jpeg'
 import { Stack, Typography } from '@mui/material'
 import CustomisedButton from './CustomisedButton.tsx'
-import { before } from 'node:test'
 
 interface FaceScreenProps {}
 
 const FaceScreen: React.FC<FaceScreenProps> = () => {
   return (
     <Box
-      component="div"
+      position="relative"
+      width="100%"
+      maxWidth="1170px"
+      height="650px"
+      minHeight="500px"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
       sx={{
         position: 'relative',
         backgroundImage: `url(${Bg})`,
         backgroundColor: 'rgba(0,0,0,50%)',
         backgroundSize: 'cover',
-        width: '100%',
-        maxWidth: '1170px',
-        height: '650px',
-        minHeight: '500px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         '::before': {
           content: '""',
           position: 'absolute',
