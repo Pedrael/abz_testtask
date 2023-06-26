@@ -7,8 +7,9 @@ const CustomisedButton = styled(Button)({
   color: fontColor,
   borderRadius: 35,
   fontSize: '16px',
-  width: '100px',
+  minWidth: '100px',
   height: '40px',
+  padding: '18px',
   textTransform: 'capitalize',
 })
 
