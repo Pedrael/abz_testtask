@@ -10,3 +10,4 @@ export enum RequestMethods {
   put = 'PUT',
   delete = 'DELETE',
 }
+export const textFieldBorder = '#D0CFCF'
