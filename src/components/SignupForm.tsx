@@ -70,15 +70,13 @@ export function SignupForm() {
             value={phone}
             onChange={handlePhoneChange}
           >
-            {() => (
-              <CustomisedTextField
-                color="primary"
-                required
-                label="Phone"
-                helperText="+38 (XXX) XXX - XX - XX"
-                sx={{ marginBottom: '43px' }}
-              />
-            )}
+            <CustomisedTextField
+              color="primary"
+              required
+              label="Phone"
+              helperText="+38 (XXX) XXX - XX - XX"
+              sx={{ marginBottom: '43px' }}
+            />
           </InputMask>
           <Typography fontSize="16px" mb="6px">
             Select your position
