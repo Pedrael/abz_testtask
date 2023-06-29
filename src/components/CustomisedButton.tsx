@@ -1,5 +1,5 @@
 import { Button, styled } from '@mui/material'
-import { fontColor, primaryColor } from '../vars.ts'
+import { fontColor, primaryColor } from '../contstants.ts'
 
 const CustomisedButton = styled(Button)({
   backgroundColor: primaryColor,
@@ -7,8 +7,9 @@ const CustomisedButton = styled(Button)({
   color: fontColor,
   borderRadius: 35,
   fontSize: '16px',
-  width: '100px',
+  minWidth: '100px',
   height: '40px',
+  padding: '18px',
   textTransform: 'capitalize',
 })
 

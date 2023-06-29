@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import './../vars.ts'
+import '../contstants.ts'
 import React from 'react'
 import Bg from '../assets/pexels-alexandr-podvalny-1227513.jpeg'
 import { Stack, Typography } from '@mui/material'
