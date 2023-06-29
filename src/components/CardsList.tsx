@@ -1,8 +1,8 @@
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { Card } from './Card.tsx'
 import { InfoCard } from '../types'
-import { CustomisedTypography } from './CustomisedTypography'
 import CustomisedButton from './CustomisedButton.tsx'
+import { v4 as uuidv4 } from 'uuid'
 
 interface CardsListProps {
   cards: Array<InfoCard>
@@ -11,9 +11,9 @@ interface CardsListProps {
 export function CardsList({ cards }: CardsListProps) {
   return (
     <Stack alignItems="center">
-      <CustomisedTypography fontSize="40px" marginTop="140px" mb="50px">
+      <Typography fontSize="40px" marginTop="140px" mb="50px">
         Working with GET request
-      </CustomisedTypography>
+      </Typography>
       <Box
         display="flex"
         flexWrap="wrap"
@@ -21,13 +21,13 @@ export function CardsList({ cards }: CardsListProps) {
         justifyContent="center"
         mb="50px"
       >
-        {cards.map((item, index) => (
+        {cards.map(({ title, description, email, phone }) => (
           <Card
-            key={index}
-            title={item.title}
-            description={item.description}
-            email={item.email}
-            phone={item.phone}
+            key={uuidv4()}
+            title={title}
+            description={description}
+            email={email}
+            phone={phone}
           />
         ))}
       </Box>

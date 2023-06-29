@@ -1,6 +1,5 @@
-import { Avatar, Stack } from '@mui/material'
-import { CustomisedTypography } from './CustomisedTypography'
-import { fontFamily } from '../vars'
+import { Avatar, Stack, Typography } from '@mui/material'
+import { fontFamily } from '../contstants'
 import { InfoCard } from '../types'
 
 type InfoCardProps = InfoCard // made in order to save incapsulation of types
@@ -25,22 +24,22 @@ export function Card({
         src={imgURL}
         sx={{ width: '70px', height: '70px', marginBottom: '20px' }}
       ></Avatar>
-      <CustomisedTypography
+      <Typography
         fontSize="16px"
         fontFamily={fontFamily}
         sx={{ marginBottom: '20px' }}
       >
         {title}
-      </CustomisedTypography>
-      <CustomisedTypography fontSize="16px" fontFamily={fontFamily}>
+      </Typography>
+      <Typography fontSize="16px" fontFamily={fontFamily}>
         {description}
-      </CustomisedTypography>
-      <CustomisedTypography fontSize="16px" fontFamily={fontFamily}>
+      </Typography>
+      <Typography fontSize="16px" fontFamily={fontFamily}>
         {email}
-      </CustomisedTypography>
-      <CustomisedTypography fontSize="16px" fontFamily={fontFamily}>
+      </Typography>
+      <Typography fontSize="16px" fontFamily={fontFamily}>
         {phone}
-      </CustomisedTypography>
+      </Typography>
     </Stack>
   )
 }

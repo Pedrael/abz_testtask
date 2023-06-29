@@ -1,10 +1,9 @@
 import Box from '@mui/material/Box'
-import './../vars.ts'
+import '../contstants.ts'
 import React from 'react'
 import Bg from '../assets/pexels-alexandr-podvalny-1227513.jpeg'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import CustomisedButton from './CustomisedButton.tsx'
-import { CustomisedTypography } from './CustomisedTypography.tsx'
 
 interface FaceScreenProps {}
 
@@ -36,7 +35,7 @@ const FaceScreen: React.FC<FaceScreenProps> = () => {
       }}
     >
       <Stack maxWidth="380px" alignItems="center">
-        <CustomisedTypography
+        <Typography
           color="white"
           fontSize="40px"
           lineHeight="40px"
@@ -45,8 +44,8 @@ const FaceScreen: React.FC<FaceScreenProps> = () => {
           mb="21px"
         >
           Test assignment for front-end developer
-        </CustomisedTypography>
-        <CustomisedTypography
+        </Typography>
+        <Typography
           color="white"
           fontSize="16px"
           lineHeight="26px"
@@ -59,7 +58,7 @@ const FaceScreen: React.FC<FaceScreenProps> = () => {
           thinking as they'll be building web interfaces with accessibility in
           mind. They should also be excited to learn, as the world of Front-End
           Development keeps evolving.
-        </CustomisedTypography>
+        </Typography>
         <CustomisedButton>Sign up</CustomisedButton>
       </Stack>
     </Box>
