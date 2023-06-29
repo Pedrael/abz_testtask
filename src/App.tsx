@@ -4,6 +4,7 @@ import FaceScreen from './components/FaceScreen'
 import { CardsList } from './components/CardsList'
 import { backgroundColor } from './contstants'
 import { theme } from './theme'
+import { v4 as uuidv4 } from 'uuid'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <CardsList
             cards={[
               {
+                id: uuidv4(),
                 imgURL: '',
                 title: 'Nigger',
                 description: 'Nigger card',
@@ -23,6 +25,7 @@ function App() {
                 phone: '+38(050)1488666',
               },
               {
+                id: uuidv4(),
                 imgURL: '',
                 title: 'Nigger',
                 description: 'Nigger card',
@@ -30,6 +33,7 @@ function App() {
                 phone: '+38(050)1488666',
               },
               {
+                id: uuidv4(),
                 imgURL: '',
                 title: 'Nigger',
                 description: 'Nigger card',
@@ -37,6 +41,7 @@ function App() {
                 phone: '+38(050)1488666',
               },
               {
+                id: uuidv4(),
                 imgURL: '',
                 title: 'Nigger',
                 description: 'Nigger card',
@@ -44,6 +49,7 @@ function App() {
                 phone: '+38(050)1488666',
               },
               {
+                id: uuidv4(),
                 imgURL: '',
                 title: 'Nigger',
                 description: 'Nigger card',
@@ -51,6 +57,7 @@ function App() {
                 phone: '+38(050)1488666',
               },
               {
+                id: uuidv4(),
                 imgURL: '',
                 title: 'Nigger',
                 description: 'Nigger card',

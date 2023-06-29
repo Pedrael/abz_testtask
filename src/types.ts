@@ -1,4 +1,5 @@
 export type InfoCard = {
+  id: string
   imgURL?: string
   title?: string
   description?: string

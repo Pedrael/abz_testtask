@@ -2,7 +2,6 @@ import { Box, Stack, Typography } from '@mui/material'
 import { Card } from './Card.tsx'
 import { InfoCard } from '../types'
 import CustomisedButton from './CustomisedButton.tsx'
-import { v4 as uuidv4 } from 'uuid'
 
 interface CardsListProps {
   cards: Array<InfoCard>
@@ -21,9 +20,10 @@ export function CardsList({ cards }: CardsListProps) {
         justifyContent="center"
         mb="50px"
       >
-        {cards.map(({ title, description, email, phone }) => (
+        {cards.map(({ id, title, description, email, phone }) => (
           <Card
-            key={uuidv4()}
+            key={id}
+            id={id}
             title={title}
             description={description}
             email={email}
