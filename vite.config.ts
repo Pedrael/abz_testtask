@@ -8,7 +8,7 @@ export default defineConfig({
   base: './',
   server: {
     // Enable open on the local network.
-    open: true,
+    open: false,
     host: true,
   },
   build: {

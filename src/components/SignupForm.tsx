@@ -9,7 +9,7 @@ import {
 import CustomisedTextField from './CustomisedTextField'
 import CustomisedButton from './CustomisedButton'
 import { CustomisedImageUpload } from './CustomisedImageUpload'
-import { useState } from 'react'
+import { ChangeEvent, ReactNode, useState } from 'react'
 import { ImageData } from './CustomisedImageUpload'
 import InputMask from 'react-input-mask'
 
@@ -21,33 +21,39 @@ export function SignupForm() {
 
   const isSubmitDisabled = !name || !email || !phone || !image
 
-  const handleNameChange = (e: { target: { value: any } }) => {
-    setName(e.target.value)
+  const handleNameChange = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    setName(value)
   }
 
-  const handleEmailChange = (e: { target: { value: any } }) => {
-    setEmail(e.target.value)
+  const handleEmailChange = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    setEmail(value)
   }
 
-  const handlePhoneChange = (e: { target: { value: any } }) => {
-    setPhone(e.target.value)
+  const handlePhoneChange = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    setPhone(value)
   }
 
   const handleImageChange = (image: ImageData) => {
     setImage(image)
   }
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-    // Perform form submission logic here
+  const handleSubmit = () => {
+    console.log('penis')
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <Stack alignItems="center" mt="140px">
         <FormControl>
-          <Typography mb="50px">Working with POST request</Typography>{' '}
-          {/*TODO: CustomisedTypography*/}
+          <Typography mb="50px" fontSize="40px">
+            Working with POST request
+          </Typography>
           <CustomisedTextField
             color="primary"
             required
@@ -70,13 +76,17 @@ export function SignupForm() {
             value={phone}
             onChange={handlePhoneChange}
           >
-            <CustomisedTextField
-              color="primary"
-              required
-              label="Phone"
-              helperText="+38 (XXX) XXX - XX - XX"
-              sx={{ marginBottom: '43px' }}
-            />
+            {
+              (() => (
+                <CustomisedTextField
+                  color="primary"
+                  required
+                  label="Phone"
+                  helperText="+38 (XXX) XXX - XX - XX"
+                  sx={{ marginBottom: '43px' }}
+                />
+              )) as unknown as ReactNode
+            }
           </InputMask>
           <Typography fontSize="16px" mb="6px">
             Select your position
@@ -109,7 +119,7 @@ export function SignupForm() {
           </RadioGroup>
           <CustomisedImageUpload onImageLoad={handleImageChange} />
           <CustomisedButton
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
             disabled={isSubmitDisabled}
             sx={{ alignSelf: 'center', marginBottom: '100px' }}
           >

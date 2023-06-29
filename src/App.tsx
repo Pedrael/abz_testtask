@@ -8,6 +8,7 @@ import { useAsyncEffect } from './useAcyncEffect'
 import { useState } from 'react'
 import { fetchRequest } from './requester'
 import { InfoCard } from './types'
+import { SignupForm } from './components/SignupForm'
 
 type myResponse = {
   users: InfoCard[]
@@ -61,6 +62,7 @@ function App() {
               isLoading={loader}
             />
           )}
+          <SignupForm />
         </Box>
       </Box>
     </ThemeProvider>

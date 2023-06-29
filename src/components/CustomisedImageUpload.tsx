@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import { fontColor, fontSecondaryColor, textFieldBorder } from '../vars'
+import { fontColor, fontSecondaryColor, textFieldBorder } from '../contstants'
 import { truncateString } from '../util'
 
 export type ImageData = {
