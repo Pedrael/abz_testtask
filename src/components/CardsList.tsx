@@ -1,13 +1,16 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 import { Card } from './Card.tsx'
 import { InfoCard } from '../types'
 import CustomisedButton from './CustomisedButton.tsx'
+import { MouseEventHandler } from 'react'
 
 interface CardsListProps {
   cards: Array<InfoCard>
+  onClick: MouseEventHandler<HTMLButtonElement>
+  isLoading: boolean
 }
 
-export function CardsList({ cards }: CardsListProps) {
+export function CardsList({ cards, isLoading, onClick }: CardsListProps) {
   return (
     <Stack alignItems="center">
       <Typography fontSize="40px" marginTop="140px" mb="50px">
@@ -20,18 +23,28 @@ export function CardsList({ cards }: CardsListProps) {
         justifyContent="center"
         mb="50px"
       >
-        {cards.map(({ id, title, description, email, phone }) => (
+        {cards.map(({ id, name, email, phone, position, photo }) => (
           <Card
             key={id}
             id={id}
-            title={title}
-            description={description}
+            name={name}
+            position={position}
             email={email}
             phone={phone}
+            photo={photo}
           />
         ))}
       </Box>
-      <CustomisedButton>Show more</CustomisedButton>
+      <Box display="flex" alignItems="center">
+        <CustomisedButton onClick={onClick}>Show more</CustomisedButton>
+        {isLoading && (
+          <CircularProgress
+            color="primary"
+            size={20}
+            sx={{ marginRight: '-30px', marginLeft: '10px' }}
+          />
+        )}
+      </Box>
     </Stack>
   )
 }

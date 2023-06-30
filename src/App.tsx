@@ -2,11 +2,51 @@ import { Box, CssBaseline, ThemeProvider } from '@mui/material'
 import { CustomisedAppBar } from './components/CustomisedAppBar'
 import FaceScreen from './components/FaceScreen'
 import { CardsList } from './components/CardsList'
-import { backgroundColor } from './contstants'
+import { RequestMethods, backgroundColor } from './contstants'
 import { theme } from './theme'
-import { v4 as uuidv4 } from 'uuid'
+import { useAsyncEffect } from './useAcyncEffect'
+import { useState } from 'react'
+import { fetchRequest } from './requester'
+import { InfoCard } from './types'
+
+type myResponse = {
+  users: InfoCard[]
+  links: {
+    next_url: string | null
+  }
+}
 
 function App() {
+  const [cards, setCards] = useState<Array<InfoCard>>([])
+  const [URL, setURL] = useState<string>(
+    'https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6',
+  )
+  const [loader, setLoader] = useState<boolean>(false)
+
+  useAsyncEffect(async () => {
+    const {
+      users,
+      links: { next_url },
+    } = await fetchRequest<myResponse>(URL, {
+      method: RequestMethods.get,
+    })
+    setURL(next_url ?? '')
+    setCards([...cards, ...users])
+  }, [])
+
+  const handleOnClick = async () => {
+    setLoader(true)
+    const {
+      users,
+      links: { next_url },
+    } = await fetchRequest<myResponse>(URL, {
+      method: RequestMethods.get,
+    })
+    setURL(next_url ?? '')
+    setCards([...cards, ...users])
+    setLoader(false)
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ backgroundColor: { backgroundColor } }}>
@@ -14,58 +54,13 @@ function App() {
         <Box display="flex" alignItems="center" flexDirection="column">
           <CustomisedAppBar />
           <FaceScreen />
-          <CardsList
-            cards={[
-              {
-                id: uuidv4(),
-                imgURL: '',
-                title: 'Nigger',
-                description: 'Nigger card',
-                email: 'nigger@gmail.com',
-                phone: '+38(050)1488666',
-              },
-              {
-                id: uuidv4(),
-                imgURL: '',
-                title: 'Nigger',
-                description: 'Nigger card',
-                email: 'nigger@gmail.com',
-                phone: '+38(050)1488666',
-              },
-              {
-                id: uuidv4(),
-                imgURL: '',
-                title: 'Nigger',
-                description: 'Nigger card',
-                email: 'nigger@gmail.com',
-                phone: '+38(050)1488666',
-              },
-              {
-                id: uuidv4(),
-                imgURL: '',
-                title: 'Nigger',
-                description: 'Nigger card',
-                email: 'nigger@gmail.com',
-                phone: '+38(050)1488666',
-              },
-              {
-                id: uuidv4(),
-                imgURL: '',
-                title: 'Nigger',
-                description: 'Nigger card',
-                email: 'nigger@gmail.com',
-                phone: '+38(050)1488666',
-              },
-              {
-                id: uuidv4(),
-                imgURL: '',
-                title: 'Nigger',
-                description: 'Nigger card',
-                email: 'nigger@gmail.com',
-                phone: '+38(050)1488666',
-              },
-            ]}
-          />
+          {cards.length && (
+            <CardsList
+              cards={cards}
+              onClick={handleOnClick}
+              isLoading={loader}
+            />
+          )}
         </Box>
       </Box>
     </ThemeProvider>
