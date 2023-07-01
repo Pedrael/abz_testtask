@@ -8,3 +8,10 @@ export type InfoCard = {
   registration_timestamp?: number
   photo?: string
 }
+
+export type ImageData = {
+  name: string
+  size: number
+  type: string
+  url: string
+}

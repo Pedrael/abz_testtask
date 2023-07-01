@@ -11,6 +11,11 @@ const CustomisedButton = styled(Button)({
   height: '40px',
   padding: '18px',
   textTransform: 'capitalize',
+  '&.Mui-disabled': {
+    backgroundColor: '#B4B4B4',
+    color: 'white',
+    cursor: 'not-allowed',
+  },
 })
 
 export default CustomisedButton
