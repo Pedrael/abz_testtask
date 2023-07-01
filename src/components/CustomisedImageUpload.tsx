@@ -2,27 +2,22 @@ import { useState, ChangeEvent } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import { fontColor, fontSecondaryColor, textFieldBorder } from '../contstants'
 import { truncateString } from '../util'
-
-export type ImageData = {
-  // TODO : move to types.ts when it approves
-  name: string
-  size: number
-  type: string
-  url: string
-}
+import { ImageData } from '../types'
 interface CustomisedImageUploadProps {
   onImageLoad: (imageData: ImageData) => void
 }
 
-export function CustomisedImageUpload({
+export const CustomisedImageUpload = ({
   onImageLoad,
-}: CustomisedImageUploadProps) {
+}: CustomisedImageUploadProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isSelected, setSelected] = useState<boolean>(false)
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const file: File = event.target.files[0]
+  const handleFileChange = ({
+    target: { files },
+  }: ChangeEvent<HTMLInputElement>) => {
+    if (files && files.length > 0) {
+      const file: File = files[0]
       setSelectedFile(file)
       setSelected(true)
       const imageData: ImageData = {

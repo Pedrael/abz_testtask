@@ -10,10 +10,10 @@ import CustomisedTextField from './CustomisedTextField'
 import CustomisedButton from './CustomisedButton'
 import { CustomisedImageUpload } from './CustomisedImageUpload'
 import { ChangeEvent, ReactNode, useState } from 'react'
-import { ImageData } from './CustomisedImageUpload'
+import { ImageData } from '../types'
 import InputMask from 'react-input-mask'
 
-export function SignupForm() {
+export const SignupForm = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')

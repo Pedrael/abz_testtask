@@ -10,7 +10,7 @@ interface CardsListProps {
   isLoading: boolean
 }
 
-export function CardsList({ cards, isLoading, onClick }: CardsListProps) {
+export const CardsList = ({ cards, isLoading, onClick }: CardsListProps) => {
   return (
     <Stack alignItems="center">
       <Typography fontSize="40px" marginTop="140px" mb="50px">

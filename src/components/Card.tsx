@@ -4,7 +4,13 @@ import { InfoCard } from '../types'
 
 type InfoCardProps = InfoCard // made in order to save incapsulation of types
 
-export function Card({ photo, name, position, email, phone }: InfoCardProps) {
+export const Card = ({
+  photo,
+  name,
+  position,
+  email,
+  phone,
+}: InfoCardProps) => {
   return (
     <Stack
       maxWidth="370px"
