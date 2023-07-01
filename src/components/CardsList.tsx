@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 import { Card } from './Card.tsx'
 import { InfoCard } from '../types'
-import CustomisedButton from './CustomisedButton.tsx'
+import CustomisedButton from './DefaultButton.tsx'
 import { MouseEventHandler } from 'react'
 
 interface CardsListProps {

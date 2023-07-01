@@ -3,7 +3,7 @@ import '../contstants.ts'
 import React from 'react'
 import Bg from '../assets/pexels-alexandr-podvalny-1227513.jpeg'
 import { Stack, Typography } from '@mui/material'
-import CustomisedButton from './CustomisedButton.tsx'
+import CustomisedButton from './DefaultButton.tsx'
 
 interface FaceScreenProps {}
 

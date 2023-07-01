@@ -1,5 +1,5 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material'
-import { CustomisedAppBar } from './components/CustomisedAppBar'
+import { CustomisedAppBar } from './components/DefaultAppBar'
 import FaceScreen from './components/FaceScreen'
 import { CardsList } from './components/CardsList'
 import { RequestMethods, backgroundColor } from './contstants'
