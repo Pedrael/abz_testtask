@@ -6,45 +6,103 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import CustomisedTextField from './DefaultTextField'
+import DefaultTextField from './DefaultTextField'
 import CustomisedButton from './DefaultButton'
-import { CustomisedImageUpload } from './ImageUpload'
+import { ImageUpload } from './ImageUpload'
 import { ChangeEvent, ReactNode, useState } from 'react'
 import { ImageData } from '../types'
 import InputMask from 'react-input-mask'
+import { useAsyncEffect } from '../useAcyncEffect'
+import { fetchRequest } from '../requester'
+import { RequestMethods } from '../contstants'
+
+type positionsResopnse = {
+  positions: Array<radioButton>
+}
+
+type tokenResponse = {
+  token: string
+}
+
+type radioButton = {
+  id: number
+  name: string
+}
 
 export const SignupForm = () => {
   const [name, setName] = useState('')
+  const [isNameValid, setNameValid] = useState<boolean>(true)
   const [email, setEmail] = useState('')
+  const [isEmailValid, setEmailValid] = useState<boolean>(true)
   const [phone, setPhone] = useState('')
-  const [image, setImage] = useState<ImageData>()
+  const [isPhoneValid, setPhoneValid] = useState<boolean>(true)
+  const [photo, setPhoto] = useState<ImageData>()
+  const [isPhotoValid, setPhotoValid] = useState<boolean>(true)
+  const [posId, setPosId] = useState('')
+  const [radio, setRadio] = useState<Array<radioButton>>([])
+  const radioURL =
+    'https://frontend-test-assignment-api.abz.agency/api/v1/positions'
+  const tokenURL =
+    'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
-  const isSubmitDisabled = !name || !email || !phone || !image
+  const isSubmitDisabled = !name || !email || !phone || !photo
+
+  useAsyncEffect(async () => {
+    const { positions } = await fetchRequest<positionsResopnse>(radioURL, {
+      method: RequestMethods.get,
+    })
+    setRadio([...positions])
+  }, [])
 
   const handleNameChange = ({
+    // done!
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     setName(value)
+    setNameValid(value.length < 2 || value.length > 60 ? false : true)
   }
 
   const handleEmailChange = ({
+    // TODO
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     setEmail(value)
   }
 
   const handlePhoneChange = ({
+    // done!
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     setPhone(value)
+    setPhoneValid(value.length !== 19 ? false : true)
   }
 
   const handleImageChange = (image: ImageData) => {
-    setImage(image)
+    //TODO
+    setPhoto(image)
   }
 
-  const handleSubmit = () => {
-    console.log('penis')
+  const handleRadioGroup = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    setPosId(value) // TODO: default checked
+  }
+
+  const handleSubmit = async () => {
+    const { token } = await fetchRequest<tokenResponse>(tokenURL, {
+      method: RequestMethods.get,
+    })
+    // const result = await fetchRequest<positionsResopnse>(radioURL, {
+    //   method: RequestMethods.post,
+    //   body: {
+    //     token: {token},
+    //     name: { name },
+    //     email: { email },
+    //     phone: { phone },
+    //     photo: { photo },
+    //     position_id: { posId },
+    //   },
+    // })
   }
 
   return (
@@ -54,32 +112,32 @@ export const SignupForm = () => {
           <Typography mb="50px" fontSize="40px">
             Working with POST request
           </Typography>
-          <CustomisedTextField
-            color="primary"
+          <DefaultTextField
+            color={isNameValid ? 'primary' : 'error'}
             required
             label="Your name"
             value={name}
             onChange={handleNameChange}
             sx={{ marginBottom: '50px' }}
-          ></CustomisedTextField>
-          <CustomisedTextField
-            color="primary"
+          ></DefaultTextField>
+          <DefaultTextField
+            color={isEmailValid ? 'primary' : 'error'}
             required
             label="Email"
             value={email}
             onChange={handleEmailChange}
             sx={{ marginBottom: '50px' }}
-          ></CustomisedTextField>
+          ></DefaultTextField>
           <InputMask
-            mask="+38 (999) 999-99-99"
+            mask="+38 (099) 999-99-99"
             maskChar={null}
             value={phone}
             onChange={handlePhoneChange}
           >
             {
               (() => (
-                <CustomisedTextField
-                  color="primary"
+                <DefaultTextField
+                  color={isPhoneValid ? 'primary' : 'error'}
                   required
                   label="Phone"
                   helperText="+38 (XXX) XXX - XX - XX"
@@ -93,31 +151,21 @@ export const SignupForm = () => {
           </Typography>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="frontend"
             name="radio-buttons-group"
+            onChange={handleRadioGroup}
+            value={posId}
           >
-            <FormControlLabel
-              value="frontend"
-              control={<Radio color="secondary" />}
-              label="Frontend developer"
-            />
-            <FormControlLabel
-              value="backend"
-              control={<Radio color="secondary" />}
-              label="Backend developer"
-            />
-            <FormControlLabel
-              value="designer"
-              control={<Radio color="secondary" />}
-              label="Designer"
-            />
-            <FormControlLabel
-              value="QA"
-              control={<Radio color="secondary" />}
-              label="QA"
-            />
+            {radio.length &&
+              radio.map(({ id, name }) => (
+                <FormControlLabel
+                  key={id}
+                  value={id}
+                  control={<Radio color="secondary" />}
+                  label={name}
+                />
+              ))}
           </RadioGroup>
-          <CustomisedImageUpload onImageLoad={handleImageChange} />
+          <ImageUpload onImageLoad={handleImageChange} />
           <CustomisedButton
             onClick={handleSubmit}
             disabled={isSubmitDisabled}

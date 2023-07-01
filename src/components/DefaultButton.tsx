@@ -1,7 +1,7 @@
 import { Button, styled } from '@mui/material'
 import { fontColor, primaryColor } from '../contstants.ts'
 
-const CustomisedButton = styled(Button)({
+const DefaultButton = styled(Button)({
   backgroundColor: primaryColor,
   '&:hover': { backgroundColor: primaryColor },
   color: fontColor,
@@ -18,4 +18,4 @@ const CustomisedButton = styled(Button)({
   },
 })
 
-export default CustomisedButton
+export default DefaultButton

@@ -1,8 +1,8 @@
 import { AppBar, AppBarProps, Box, Toolbar } from '@mui/material'
-import CustomisedButton from './DefaultButton'
+import DefaultButton from './DefaultButton'
 import Logo from '../assets/Logo.svg'
 
-export const CustomisedAppBar = ({ ...props }: AppBarProps) => {
+export const DefaultAppBar = ({ ...props }: AppBarProps) => {
   return (
     <AppBar
       position="static"
@@ -23,10 +23,8 @@ export const CustomisedAppBar = ({ ...props }: AppBarProps) => {
           src={Logo}
         />
         <Box>
-          <CustomisedButton sx={{ marginRight: '10px' }}>
-            Users
-          </CustomisedButton>
-          <CustomisedButton>Sign up</CustomisedButton>
+          <DefaultButton sx={{ marginRight: '10px' }}>Users</DefaultButton>
+          <DefaultButton>Sign up</DefaultButton>
         </Box>
       </Toolbar>
     </AppBar>

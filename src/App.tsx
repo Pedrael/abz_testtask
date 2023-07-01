@@ -1,5 +1,5 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material'
-import { CustomisedAppBar } from './components/DefaultAppBar'
+import { DefaultAppBar } from './components/DefaultAppBar'
 import FaceScreen from './components/FaceScreen'
 import { CardsList } from './components/CardsList'
 import { RequestMethods, backgroundColor } from './contstants'
@@ -17,7 +17,7 @@ type myResponse = {
   }
 }
 
-function App() {
+const App = () => {
   const [cards, setCards] = useState<Array<InfoCard>>([])
   const [URL, setURL] = useState<string>(
     'https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6',
@@ -53,7 +53,7 @@ function App() {
       <Box sx={{ backgroundColor: { backgroundColor } }}>
         <CssBaseline />
         <Box display="flex" alignItems="center" flexDirection="column">
-          <CustomisedAppBar />
+          <DefaultAppBar />
           <FaceScreen />
           {cards.length && (
             <CardsList

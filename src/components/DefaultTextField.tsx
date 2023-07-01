@@ -1,7 +1,7 @@
 import { TextField, styled } from '@mui/material'
 import { textFieldBorder, fontSecondaryColor } from '../contstants'
 
-const CustomisedTextField = styled(TextField)(({ theme, color }) => ({
+const DefaultTextField = styled(TextField)(({ theme, color }) => ({
   '& label.Mui-focused': {
     color:
       color === 'primary'
@@ -54,4 +54,4 @@ const CustomisedTextField = styled(TextField)(({ theme, color }) => ({
   },
 }))
 
-export default CustomisedTextField
+export default DefaultTextField

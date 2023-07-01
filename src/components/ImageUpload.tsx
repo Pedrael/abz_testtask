@@ -3,13 +3,11 @@ import { Box, Button, Typography } from '@mui/material'
 import { fontColor, fontSecondaryColor, textFieldBorder } from '../contstants'
 import { truncateString } from '../util'
 import { ImageData } from '../types'
-interface CustomisedImageUploadProps {
+interface ImageUploadProps {
   onImageLoad: (imageData: ImageData) => void
 }
 
-export const CustomisedImageUpload = ({
-  onImageLoad,
-}: CustomisedImageUploadProps) => {
+export const ImageUpload = ({ onImageLoad }: ImageUploadProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isSelected, setSelected] = useState<boolean>(false)
 
