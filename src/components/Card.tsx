@@ -4,13 +4,7 @@ import { InfoCard } from '../types'
 
 type InfoCardProps = InfoCard // made in order to save incapsulation of types
 
-export function Card({
-  imgURL,
-  title,
-  description,
-  email,
-  phone,
-}: InfoCardProps) {
+export function Card({ photo, name, position, email, phone }: InfoCardProps) {
   return (
     <Stack
       maxWidth="370px"
@@ -21,7 +15,7 @@ export function Card({
       sx={{ backgroundColor: 'white', flexShrink: 1 }}
     >
       <Avatar
-        src={imgURL}
+        src={photo}
         sx={{ width: '70px', height: '70px', marginBottom: '20px' }}
       ></Avatar>
       <Typography
@@ -29,10 +23,10 @@ export function Card({
         fontFamily={fontFamily}
         sx={{ marginBottom: '20px' }}
       >
-        {title}
+        {name}
       </Typography>
       <Typography fontSize="16px" fontFamily={fontFamily}>
-        {description}
+        {position}
       </Typography>
       <Typography fontSize="16px" fontFamily={fontFamily}>
         {email}
