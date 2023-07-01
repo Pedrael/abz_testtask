@@ -6,9 +6,9 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import CustomisedTextField from './CustomisedTextField'
-import CustomisedButton from './CustomisedButton'
-import { CustomisedImageUpload } from './CustomisedImageUpload'
+import CustomisedTextField from './DefaultTextField'
+import CustomisedButton from './DefaultButton'
+import { CustomisedImageUpload } from './ImageUpload'
 import { ChangeEvent, ReactNode, useState } from 'react'
 import { ImageData } from '../types'
 import InputMask from 'react-input-mask'

@@ -1,5 +1,5 @@
 import { AppBar, AppBarProps, Box, Toolbar } from '@mui/material'
-import CustomisedButton from './CustomisedButton'
+import CustomisedButton from './DefaultButton'
 import Logo from '../assets/Logo.svg'
 
 export const CustomisedAppBar = ({ ...props }: AppBarProps) => {
