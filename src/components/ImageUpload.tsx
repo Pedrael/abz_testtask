@@ -1,32 +1,61 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import { fontColor, fontSecondaryColor, textFieldBorder } from '../contstants'
+import {
+  fontColor,
+  fontSecondaryColor,
+  maxSizeInBytes,
+  minSizeInPixels,
+  textFieldBorder,
+} from '../contstants'
 import { truncateString } from '../util'
 import { ImageData } from '../types'
 interface ImageUploadProps {
-  onImageLoad: (imageData: ImageData) => void
+  onImageLoad: (imageData: ImageData, isImageValid: boolean) => void
 }
 
 export const ImageUpload = ({ onImageLoad }: ImageUploadProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isSelected, setSelected] = useState<boolean>(false)
+  const [isFileValid, setFileValid] = useState<boolean | undefined>(undefined)
 
   const handleFileChange = ({
     target: { files },
   }: ChangeEvent<HTMLInputElement>) => {
+    setFileValid(undefined)
     if (files && files.length > 0) {
       const file: File = files[0]
       setSelectedFile(file)
       setSelected(true)
-      const imageData: ImageData = {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        url: URL.createObjectURL(file),
+      const img = new Image()
+      let pixelCheck = false
+      img.src = URL.createObjectURL(file)
+      img.onload = async () => {
+        pixelCheck =
+          (await img.width) >= minSizeInPixels.width &&
+          (await img.height) >= minSizeInPixels.height
+
+        setFileValid(
+          file.size < maxSizeInBytes &&
+            file.type.startsWith('image/jpeg') &&
+            pixelCheck,
+        )
       }
-      onImageLoad(imageData)
     }
   }
+
+  useEffect(() => {
+    isFileValid &&
+      onImageLoad(
+        {
+          name: selectedFile?.name ?? '',
+          size: selectedFile?.size ?? 0,
+          type: selectedFile?.type ?? '',
+          url: URL.createObjectURL(selectedFile as File),
+        },
+        isFileValid,
+      )
+    isFileValid && console.log(selectedFile, isFileValid)
+  }, [isFileValid])
 
   return (
     <Box mt="47px" mb="50px">
@@ -42,7 +71,13 @@ export const ImageUpload = ({ onImageLoad }: ImageUploadProps) => {
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          border: `1px solid ${textFieldBorder}`,
+          border: `${!isSelected ? '1px' : isFileValid ? '1px' : '2px'} solid ${
+            !isSelected
+              ? textFieldBorder
+              : isFileValid
+              ? textFieldBorder
+              : 'red'
+          }`,
           boxSizing: 'border-box',
           borderRadius: '4px',
           width: '380px',
@@ -62,11 +97,29 @@ export const ImageUpload = ({ onImageLoad }: ImageUploadProps) => {
             textTransform: 'capitalize',
             margin: '-2px',
             marginRight: '16px',
-            borderColor: `${fontColor}`,
+            border: 'none',
+            borderRight: `${
+              !isSelected ? '1px' : isFileValid ? '1px' : '2px'
+            } solid ${
+              !isSelected
+                ? textFieldBorder
+                : isFileValid
+                ? textFieldBorder
+                : 'red'
+            }`,
             padding: '15px',
             borderRadius: '4px 0 0 4px',
             '&:hover': {
-              borderColor: `${fontColor}`,
+              border: 'none',
+              borderRight: `${
+                !isSelected ? '1px' : isFileValid ? '1px' : '2px'
+              } solid ${
+                !isSelected
+                  ? textFieldBorder
+                  : isFileValid
+                  ? textFieldBorder
+                  : 'red'
+              }`,
             },
           }}
         >

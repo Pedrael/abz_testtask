@@ -9,7 +9,7 @@ import {
 import DefaultTextField from './DefaultTextField'
 import CustomisedButton from './DefaultButton'
 import { ImageUpload } from './ImageUpload'
-import { ChangeEvent, ReactNode, useState } from 'react'
+import { ChangeEvent, ReactNode, useState, useEffect } from 'react'
 import { ImageData } from '../types'
 import InputMask from 'react-input-mask'
 import { useAsyncEffect } from '../useAcyncEffect'
@@ -44,8 +44,17 @@ export const SignupForm = () => {
     'https://frontend-test-assignment-api.abz.agency/api/v1/positions'
   const tokenURL =
     'https://frontend-test-assignment-api.abz.agency/api/v1/token'
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-  const isSubmitDisabled = !name || !email || !phone || !photo
+  const isSubmitDisabled =
+    !name ||
+    !email ||
+    !phone ||
+    !photo ||
+    !isNameValid ||
+    !isEmailValid ||
+    !isPhoneValid ||
+    !isPhotoValid
 
   useAsyncEffect(async () => {
     const { positions } = await fetchRequest<positionsResopnse>(radioURL, {
@@ -63,10 +72,11 @@ export const SignupForm = () => {
   }
 
   const handleEmailChange = ({
-    // TODO
+    // done!
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     setEmail(value)
+    setEmailValid(emailPattern.test(value))
   }
 
   const handlePhoneChange = ({
@@ -77,32 +87,53 @@ export const SignupForm = () => {
     setPhoneValid(value.length !== 19 ? false : true)
   }
 
-  const handleImageChange = (image: ImageData) => {
+  const handleImageChange = (image: ImageData, isImageValid: boolean) => {
     //TODO
     setPhoto(image)
+    setPhotoValid(isImageValid)
+    console.log(image, isImageValid, 'signupform')
   }
 
   const handleRadioGroup = ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    setPosId(value) // TODO: default checked
+    setPosId(value) // fixed!
   }
 
   const handleSubmit = async () => {
     const { token } = await fetchRequest<tokenResponse>(tokenURL, {
       method: RequestMethods.get,
     })
-    // const result = await fetchRequest<positionsResopnse>(radioURL, {
-    //   method: RequestMethods.post,
-    //   body: {
-    //     token: {token},
-    //     name: { name },
-    //     email: { email },
-    //     phone: { phone },
-    //     photo: { photo },
-    //     position_id: { posId },
-    //   },
-    // })
+    console.table([name, email, phone, photo, posId])
+    const formData = new FormData()
+    formData.append('name', `${name}`)
+    formData.append('email', `${email}`)
+    formData.append('phone', `${phone}`)
+    formData.append('photo', `${photo}`)
+    formData.append('position_id', `${posId}`)
+    const result = await fetchRequest<positionsResopnse>(radioURL, {
+      method: RequestMethods.post,
+      headers: {
+        Token: token,
+      },
+      body: formData,
+      // body: {
+      //   name: { name },
+      //   email: { email },
+      //   phone: { phone },
+      //   photo: { photo },
+      //   position_id: { posId },
+      // },
+    })
+
+    console.log(
+      await fetchRequest<tokenResponse>(
+        'https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6',
+        {
+          method: RequestMethods.get,
+        },
+      ),
+    )
   }
 
   return (
@@ -156,14 +187,20 @@ export const SignupForm = () => {
             value={posId}
           >
             {radio.length &&
-              radio.map(({ id, name }) => (
-                <FormControlLabel
-                  key={id}
-                  value={id}
-                  control={<Radio color="secondary" />}
-                  label={name}
-                />
-              ))}
+              radio.map(({ id, name }, index) => {
+                !posId && setPosId(String(id))
+                return (
+                  <FormControlLabel
+                    key={id}
+                    value={id}
+                    control={<Radio color="secondary" />}
+                    label={name}
+                    checked={
+                      !posId ? index === 0 : String(posId) === String(id)
+                    }
+                  />
+                )
+              })}
           </RadioGroup>
           <ImageUpload onImageLoad={handleImageChange} />
           <CustomisedButton

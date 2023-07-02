@@ -3,6 +3,7 @@ import { Card } from './Card.tsx'
 import { InfoCard } from '../types'
 import CustomisedButton from './DefaultButton.tsx'
 import { MouseEventHandler } from 'react'
+import { truncateString } from '../util.ts'
 
 interface CardsListProps {
   cards: Array<InfoCard>
@@ -27,9 +28,9 @@ export const CardsList = ({ cards, isLoading, onClick }: CardsListProps) => {
           <Card
             key={id}
             id={id}
-            name={name}
+            name={truncateString(name, 20)}
             position={position}
-            email={email}
+            email={truncateString(email, 20)}
             phone={phone}
             photo={photo}
           />
