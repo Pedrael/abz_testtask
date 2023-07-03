@@ -11,7 +11,7 @@ export type InfoCard = {
 
 export type ImageData = {
   name: string
-  size: number
+  size: string
   type: string
   url: string
 }

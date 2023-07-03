@@ -9,6 +9,8 @@ import { useState } from 'react'
 import { fetchRequest } from './requester'
 import { InfoCard } from './types'
 import { SignupForm } from './components/SignupForm'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Success } from './components/Success'
 
 type myResponse = {
   users: InfoCard[]
@@ -49,23 +51,33 @@ const App = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ backgroundColor: { backgroundColor } }}>
-        <CssBaseline />
-        <Box display="flex" alignItems="center" flexDirection="column">
-          <DefaultAppBar />
-          <FaceScreen />
-          {cards.length && (
-            <CardsList
-              cards={cards}
-              onClick={handleOnClick}
-              isLoading={loader}
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <Box sx={{ backgroundColor: { backgroundColor } }}>
+          <CssBaseline />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Box display="flex" alignItems="center" flexDirection="column">
+                  <DefaultAppBar />
+                  <FaceScreen />
+                  {cards.length && (
+                    <CardsList
+                      cards={cards}
+                      onClick={handleOnClick}
+                      isLoading={loader}
+                    />
+                  )}
+                  <SignupForm />
+                </Box>
+              }
             />
-          )}
-          <SignupForm />
+            <Route path="/success" element={<Success />}></Route>
+          </Routes>
         </Box>
-      </Box>
-    </ThemeProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   )
 }
 

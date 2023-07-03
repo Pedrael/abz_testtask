@@ -13,8 +13,10 @@ import { ChangeEvent, ReactNode, useState, useEffect } from 'react'
 import { ImageData } from '../types'
 import InputMask from 'react-input-mask'
 import { useAsyncEffect } from '../useAcyncEffect'
-import { fetchRequest } from '../requester'
+import { fetchRequest, fetchRequest2 } from '../requester'
 import { RequestMethods } from '../contstants'
+import { useNavigate } from 'react-router-dom'
+import { parseRegExp } from '../util'
 
 type positionsResopnse = {
   positions: Array<radioButton>
@@ -30,6 +32,7 @@ type radioButton = {
 }
 
 export const SignupForm = () => {
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [isNameValid, setNameValid] = useState<boolean>(true)
   const [email, setEmail] = useState('')
@@ -42,6 +45,8 @@ export const SignupForm = () => {
   const [radio, setRadio] = useState<Array<radioButton>>([])
   const radioURL =
     'https://frontend-test-assignment-api.abz.agency/api/v1/positions'
+  const usersURL =
+    'https://frontend-test-assignment-api.abz.agency/api/v1/users'
   const tokenURL =
     'https://frontend-test-assignment-api.abz.agency/api/v1/token'
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -104,114 +109,95 @@ export const SignupForm = () => {
     const { token } = await fetchRequest<tokenResponse>(tokenURL, {
       method: RequestMethods.get,
     })
-    console.table([name, email, phone, photo, posId])
-    const formData = new FormData()
-    formData.append('name', `${name}`)
-    formData.append('email', `${email}`)
-    formData.append('phone', `${phone}`)
-    formData.append('photo', `${photo}`)
-    formData.append('position_id', `${posId}`)
-    const result = await fetchRequest<positionsResopnse>(radioURL, {
+    //navigate('/success')
+    const result = await fetchRequest2<positionsResopnse>(usersURL, {
       method: RequestMethods.post,
       headers: {
         Token: token,
       },
-      body: formData,
-      // body: {
-      //   name: { name },
-      //   email: { email },
-      //   phone: { phone },
-      //   photo: { photo },
-      //   position_id: { posId },
-      // },
+      //body: formData,
+      body: {
+        name: name,
+        email: email,
+        phone: parseRegExp(phone, new RegExp('[^ )(-]+', 'g')),
+        photo: photo,
+        position_id: posId,
+      },
     })
-
-    console.log(
-      await fetchRequest<tokenResponse>(
-        'https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6',
-        {
-          method: RequestMethods.get,
-        },
-      ),
-    )
   }
 
   return (
-    <form>
-      <Stack alignItems="center" mt="140px">
-        <FormControl>
-          <Typography mb="50px" fontSize="40px">
-            Working with POST request
-          </Typography>
-          <DefaultTextField
-            color={isNameValid ? 'primary' : 'error'}
-            required
-            label="Your name"
-            value={name}
-            onChange={handleNameChange}
-            sx={{ marginBottom: '50px' }}
-          ></DefaultTextField>
-          <DefaultTextField
-            color={isEmailValid ? 'primary' : 'error'}
-            required
-            label="Email"
-            value={email}
-            onChange={handleEmailChange}
-            sx={{ marginBottom: '50px' }}
-          ></DefaultTextField>
-          <InputMask
-            mask="+38 (099) 999-99-99"
-            maskChar={null}
-            value={phone}
-            onChange={handlePhoneChange}
-          >
-            {
-              (() => (
-                <DefaultTextField
-                  color={isPhoneValid ? 'primary' : 'error'}
-                  required
-                  label="Phone"
-                  helperText="+38 (XXX) XXX - XX - XX"
-                  sx={{ marginBottom: '43px' }}
+    <Stack alignItems="center" mt="140px">
+      <FormControl>
+        <Typography mb="50px" fontSize="40px">
+          Working with POST request
+        </Typography>
+        <DefaultTextField
+          color={isNameValid ? 'primary' : 'error'}
+          required
+          label="Your name"
+          value={name}
+          onChange={handleNameChange}
+          sx={{ marginBottom: '50px' }}
+        ></DefaultTextField>
+        <DefaultTextField
+          color={isEmailValid ? 'primary' : 'error'}
+          required
+          label="Email"
+          value={email}
+          onChange={handleEmailChange}
+          sx={{ marginBottom: '50px' }}
+        ></DefaultTextField>
+        <InputMask
+          mask="+38 (099) 999-99-99"
+          maskChar={null}
+          value={phone}
+          onChange={handlePhoneChange}
+        >
+          {
+            (() => (
+              <DefaultTextField
+                color={isPhoneValid ? 'primary' : 'error'}
+                required
+                label="Phone"
+                helperText="+38 (XXX) XXX - XX - XX"
+                sx={{ marginBottom: '43px' }}
+              />
+            )) as unknown as ReactNode
+          }
+        </InputMask>
+        <Typography fontSize="16px" mb="6px">
+          Select your position
+        </Typography>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group"
+          onChange={handleRadioGroup}
+          value={posId}
+        >
+          {radio.length &&
+            radio.map(({ id, name }, index) => {
+              !posId && setPosId(String(id))
+              return (
+                <FormControlLabel
+                  key={id}
+                  value={id}
+                  control={<Radio color="secondary" />}
+                  label={name}
+                  checked={!posId ? index === 0 : String(posId) === String(id)}
                 />
-              )) as unknown as ReactNode
-            }
-          </InputMask>
-          <Typography fontSize="16px" mb="6px">
-            Select your position
-          </Typography>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
-            onChange={handleRadioGroup}
-            value={posId}
-          >
-            {radio.length &&
-              radio.map(({ id, name }, index) => {
-                !posId && setPosId(String(id))
-                return (
-                  <FormControlLabel
-                    key={id}
-                    value={id}
-                    control={<Radio color="secondary" />}
-                    label={name}
-                    checked={
-                      !posId ? index === 0 : String(posId) === String(id)
-                    }
-                  />
-                )
-              })}
-          </RadioGroup>
-          <ImageUpload onImageLoad={handleImageChange} />
-          <CustomisedButton
-            onClick={handleSubmit}
-            disabled={isSubmitDisabled}
-            sx={{ alignSelf: 'center', marginBottom: '100px' }}
-          >
-            Sign Up
-          </CustomisedButton>
-        </FormControl>
-      </Stack>
-    </form>
+              )
+            })}
+        </RadioGroup>
+        <ImageUpload onImageLoad={handleImageChange} />
+        <CustomisedButton
+          onClick={handleSubmit}
+          disabled={isSubmitDisabled}
+          sx={{ alignSelf: 'center', marginBottom: '100px' }}
+        >
+          Sign Up
+        </CustomisedButton>
+      </FormControl>
+    </Stack>
   )
 }

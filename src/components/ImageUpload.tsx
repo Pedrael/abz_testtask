@@ -48,7 +48,7 @@ export const ImageUpload = ({ onImageLoad }: ImageUploadProps) => {
       onImageLoad(
         {
           name: selectedFile?.name ?? '',
-          size: selectedFile?.size ?? 0,
+          size: String(selectedFile?.size) ?? '0',
           type: selectedFile?.type ?? '',
           url: URL.createObjectURL(selectedFile as File),
         },
