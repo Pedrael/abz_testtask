@@ -9,7 +9,7 @@ import {
 import DefaultTextField from './DefaultTextField'
 import CustomisedButton from './DefaultButton'
 import { ImageUpload } from './ImageUpload'
-import { ChangeEvent, ReactNode, useState, useEffect } from 'react'
+import { ChangeEvent, ReactNode, useState } from 'react'
 import { ImageData } from '../types'
 import InputMask from 'react-input-mask'
 import { useAsyncEffect } from '../useAcyncEffect'
@@ -31,7 +31,11 @@ type radioButton = {
   name: string
 }
 
-export const SignupForm = () => {
+interface SignupProps {
+  onRefresh: () => void
+}
+
+export const SignupForm = ({ onRefresh }: SignupProps) => {
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [isNameValid, setNameValid] = useState<boolean>(true)
@@ -110,6 +114,9 @@ export const SignupForm = () => {
       method: RequestMethods.get,
     })
     //navigate('/success')
+    console.log(onRefresh, 'REFRESH')
+
+    onRefresh()
     const result = await fetchRequest2<positionsResopnse>(usersURL, {
       method: RequestMethods.post,
       headers: {

@@ -12,7 +12,7 @@ import { SignupForm } from './components/SignupForm'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Success } from './components/Success'
 
-type myResponse = {
+type usersResponse = {
   users: InfoCard[]
   links: {
     next_url: string | null
@@ -30,7 +30,7 @@ const App = () => {
     const {
       users,
       links: { next_url },
-    } = await fetchRequest<myResponse>(URL, {
+    } = await fetchRequest<usersResponse>(URL, {
       method: RequestMethods.get,
     })
     setURL(next_url ?? '')
@@ -42,12 +42,20 @@ const App = () => {
     const {
       users,
       links: { next_url },
-    } = await fetchRequest<myResponse>(URL, {
+    } = await fetchRequest<usersResponse>(URL, {
       method: RequestMethods.get,
     })
     setURL(next_url ?? '')
     setCards([...cards, ...users])
     setLoader(false)
+  }
+
+  const handleRefresh = async () => {
+    const { users } = await fetchRequest<usersResponse>(URL, {
+      method: RequestMethods.get,
+    })
+    console.log('refreshed')
+    setCards([...users])
   }
 
   return (
@@ -69,7 +77,7 @@ const App = () => {
                       isLoading={loader}
                     />
                   )}
-                  <SignupForm />
+                  <SignupForm onRefresh={handleRefresh} />
                 </Box>
               }
             />
